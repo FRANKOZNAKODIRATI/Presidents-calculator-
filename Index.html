@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Political Leaders Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 300px;
+            text-align: center;
+        }
+        label {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        input, select {
+            padding: 8px;
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Political Leaders Calculator</h1>
+
+        <label for="dob">Enter your date of birth:</label>
+        <input type="date" id="dob" required>
+
+        <label for="country">Select your country:</label>
+        <select id="country">
+            <option value="usa">USA (Presidents)</option>
+            <option value="uk">UK (Prime Ministers)</option>
+            <option value="germany">Germany (Chancellors)</option>
+            <option value="france">France (Presidents)</option>
+            <option value="japan">Japan (Prime Ministers)</option>
+            <option value="croatia">Croatia (Presidents)</option>
+        </select>
+
+        <button onclick="calculateLeaders()">Submit</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function calculateLeaders() {
+            const dobInput = document.getElementById('dob').value;
+            const country = document.getElementById('country').value;
+            const resultDiv = document.getElementById('result');
+
+            // Check if the date of birth is valid
+            if (!dobInput) {
+                resultDiv.innerHTML = "Please enter a valid date of birth.";
+                return;
+            }
+
+            // Parse the date of birth
+            const dob = new Date(dobInput);
+            const currentDate = new Date();
+            
+            // List of political leaders based on the country
+            const leadersData = {
+                "usa": [
+                    { name: "George Washington", start: 1789, end: 1797 },
+                    { name: "John Adams", start: 1797, end: 1801 },
+                    { name: "Thomas Jefferson", start: 1801, end: 1809 },
+                    { name: "James Madison", start: 1809, end: 1817 },
+                    { name: "James Monroe", start: 1817, end: 1825 },
+                    { name: "John Quincy Adams", start: 1825, end: 1829 },
+                    { name: "Andrew Jackson", start: 1829, end: 1837 },
+                    { name: "Martin Van Buren", start: 1837, end: 1841 },
+                    { name: "William Henry Harrison", start: 1841, end: 1841 },
+                    { name: "John Tyler", start: 1841, end: 1845 },
+                    { name: "James K. Polk", start: 1845, end: 1849 },
+                    { name: "Zachary Taylor", start: 1849, end: 1850 },
+                    { name: "Millard Fillmore", start: 1850, end: 1853 },
+                    { name: "Franklin Pierce", start: 1853, end: 1857 },
+                    { name: "James Buchanan", start: 1857, end: 1861 },
+                    { name: "Abraham Lincoln", start: 1861, end: 1865 },
+                    { name: "Andrew Johnson", start: 1865, end: 1869 },
+                    { name: "Ulysses S. Grant", start: 1869, end: 1877 },
+                    { name: "Rutherford B. Hayes", start: 1877, end: 1881 },
+                    { name: "James A. Garfield", start: 1881, end: 1881 },
+                    { name: "Chester A. Arthur", start: 1881, end: 1885 },
+                    { name: "Grover Cleveland", start: 1885, end: 1889 },
+                    { name: "Benjamin Harrison", start: 1889, end: 1893 },
+                    { name: "Grover Cleveland", start: 1893, end: 1897 },
+                    { name: "William McKinley", start: 1897, end: 1901 },
+                    { name: "Theodore Roosevelt", start: 1901, end: 1909 },
+                    { name: "William Howard Taft", start: 1909, end: 1913 },
+                    { name: "Woodrow Wilson", start: 1913, end: 1921 },
+                    { name: "Warren G. Harding", start: 1921, end: 1923 },
+                    { name: "Calvin Coolidge", start: 1923, end: 1929 },
+                    { name: "Herbert Hoover", start: 1929, end: 1933 },
+                    { name: "Franklin D. Roosevelt", start: 1933, end: 1945 },
+                    { name: "Harry S. Truman", start: 1945, end: 1953 },
+                    { name: "Dwight D. Eisenhower", start: 1953, end: 1961 },
+                    { name: "John F. Kennedy", start: 1961, end: 1963 },
+                    { name: "Lyndon B. Johnson", start: 1963, end: 1969 },
+                    { name: "Richard Nixon", start: 1969, end: 1974 },
+                    { name: "Gerald Ford", start: 1974, end: 1977 },
+                    { name: "Jimmy Carter", start: 1977, end: 1981 },
+                    { name: "Ronald Reagan", start: 1981, end: 1989 },
+                    { name: "George H. W. Bush", start: 1989, end: 1993 },
+                    { name: "Bill Clinton", start: 1993, end: 2001 },
+                    { name: "George W. Bush", start: 2001, end: 2009 },
+                    { name: "Barack Obama", start: 2009, end: 2017 },
+                    { name: "Donald Trump", start: 2017, end: 2021 },
+                    { name: "Joe Biden", start: 2021, end: null }
+                ],
+                "uk": [
+                    { name: "Winston Churchill", start: 1940, end: 1945 },
+                    { name: "Clement Attlee", start: 1945, end: 1951 },
+                    { name: "Winston Churchill", start: 1951, end: 1955 },
+                    { name: "Anthony Eden", start: 1955, end: 1957 },
+                    { name: "Harold Macmillan", start: 1957, end: 1963 },
+                    { name: "Alec Douglas-Home", start: 1963, end: 1964 },
+                    { name: "Harold Wilson", start: 1964, end: 1970 },
+                    { name: "Edward Heath", start: 1970, end: 1974 },
+                    { name: "Harold Wilson", start: 1974, end: 1976 },
+                    { name: "James Callaghan", start: 1976, end: 1979 },
+                    { name: "Margaret Thatcher", start: 1979, end: 1990 },
+                    { name: "John Major", start: 1990, end: 1997 },
+                    { name: "Tony Blair", start: 1997, end: 2007 },
+                    { name: "Gordon Brown", start: 2007, end: 2010 },
+                    { name: "David Cameron", start: 2010, end: 2016 },
+                    { name: "Theresa May", start: 2016, end: 2019 },
+                    { name: "Boris Johnson", start: 2019, end: 2022 },
+                    { name: "Rishi Sunak", start: 2022, end: null }
+                ],
+                "germany": [
+                    { name: "Adolf Hitler", start: 1933, end: 1945 },
+                    { name: "Konrad Adenauer", start: 1949, end: 1963 },
+                    { name: "Ludwig Erhard", start: 1963, end: 1966 },
+                    { name: "Kurt Georg Kiesinger", start: 1966, end: 1969 },
+                    { name: "Willy Brandt", start: 1969, end: 1974 },
+                    { name: "Walter Scheel", start: 1974, end: 1974 },
+                    { name: "Helmut Schmidt", start: 1974, end: 1982 },
+                    { name: "Helmut Kohl", start: 1982, end: 1998 },
+                    { name: "Gerhard Schröder", start: 1998, end: 2005 },
+                    { name: "Angela Merkel", start: 2005, end: 2021 },
+                    { name: "Olaf Scholz", start: 2021, end: null }
+                ],
+                "france": [
+                    { name: "Charles de Gaulle", start: 1959, end: 1969 },
+                    { name: "Georges Pompidou", start: 1969, end: 1974 },
+                    { name: "Valéry Giscard d'Estaing", start: 1974, end: 1981 },
+                    { name: "François Mitterrand", start: 1981, end: 1995 },
+                    { name: "Jacques Chirac", start: 1995, end: 2007 },
+                    { name: "Nicolas Sarkozy", start: 2007, end: 2012 },
+                    { name: "François Hollande", start: 2012, end: 2017 },
+                    { name: "Emmanuel Macron", start: 2017, end: null }
+                ],
+                "japan": [
+                    { name: "Shigeru Yoshida", start: 1946, end: 1954 },
+                    { name: "Ichirō Hatoyama", start: 1954, end: 1956 },
+                    { name: "Takeshi Ueno", start: 1956, end: 1957 },
+                    { name: "Nobusuke Kishi", start: 1957, end: 1960 },
+                    { name: "Hayato Ikeda", start: 1960, end: 1964 },
+                    { name: "Eisaku Sato", start: 1964, end: 1972 },
+                    { name: "Kakuei Tanaka", start: 1972, end: 1974 },
+                    { name: "Takeo Fukuda", start: 1974, end: 1976 },
+                    { name: "Masayoshi Ohira", start: 1976, end: 1980 },
+                    { name: "Zenkō Suzuki", start: 1980, end: 1982 },
+                    { name: "Yasuhiro Nakasone", start: 1982, end: 1987 },
+                    { name: "Noboru Takeshita", start: 1987, end: 1989 },
+                    { name: "Kakuei Tanaka", start: 1989, end: 1991 },
+                    { name: "Keizo Obuchi", start: 1991, end: 1996 },
+                    { name: "Yoshiro Mori", start: 1996, end: 2000 },
+                    { name: "Junichiro Koizumi", start: 2001, end: 2006 },
+                    { name: "Shinzō Abe", start: 2006, end: 2007 },
+                    { name: "Yukio Hatoyama", start: 2009, end: 2010 },
+                    { name: "Naoto Kan", start: 2010, end: 2011 },
+                    { name: "Yoshihiko Noda", start: 2011, end: 2012 },
+                    { name: "Shinzō Abe", start: 2012, end: 2020 },
+                    { name: "Yoshihide Suga", start: 2020, end: 2021 },
+                    { name: "Fumio Kishida", start: 2021, end: null }
+                ],
+                "croatia": [
+                    { name: "Franjo Tuđman", start: 1990, end: 1999 },
+                    { name: "Stjepan Mesić", start: 2000, end: 2010 },
+                    { name: "Ivo Josipović", start: 2010, end: 2015 },
+                    { name: "Kolinda Grabar-Kitarović", start: 2015, end: 2020 },
+                    { name: "Zoran Milanović", start: 2020, end: null }
+                ]
+            };
+
+            // Get the country's leaders data
+            const leaders = leadersData[country];
+            const birthYear = dob.getFullYear();
+            const currentYear = currentDate.getFullYear();
+
+            let survivedLeaders = [];
+
+            for (let i = 0; i < leaders.length; i++) {
+                const leader = leaders[i];
+                if (leader.start <= currentYear && (leader.end === null || leader.end >= birthYear)) {
+                    survivedLeaders.push(leader.name);
+                }
+            }
+
+            // Display the result
+            if (survivedLeaders.length === 0) {
+                resultDiv.innerHTML = "Sorry, no leaders have been in office during your lifetime.";
+            } else {
+                resultDiv.innerHTML = `You have survived the following leaders: <br>${survivedLeaders.join('<br>')}`;
+            }
+        }
+    </script>
+</body>
+</html>
